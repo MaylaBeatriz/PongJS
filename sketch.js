@@ -1,26 +1,29 @@
-//variaveis da bolinha
+//bolinha
 let xBolinha = 300;
 let yBolinha = 200;
 let diametro = 20;
 let raio = diametro / 2;
 
-//variaveis da velocidade da bolinha
+//velocidade da bolinha
 let velocidadeXBolinha = 6;
 let velocidadeYBolinha = 6;
 
-//variaveis da raquete
+//jogador
 let xRaquete = 5;
 let yRaquete = 150;
 let raqueteComprimento = 10;
 let raqueteAltura = 90;
 
-//variaveis do oponente
+//oponente
 let xRaqueteOponente = 585;
 let yRaqueteOponente = 150;
 let velocidadeYOponente;
 
 let colidiu = false;
 
+//pontos
+let meusPontos = 0;
+let pontosOponente = 0;
 
 function setup() {
   createCanvas(600, 400);
@@ -38,6 +41,7 @@ function draw() {
   verificaColisaoRaquete(xRaquete, yRaquete);
   verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente);
   //colisaoMinhaRaqueteBiblioteca();
+  incluiPlacar();
 }
 
 function mostraBolinha(){
@@ -100,3 +104,9 @@ function verificaColisaoRaquete(x, y){
 //     velocidadeXBolinha *= -1
 //   }
 // }
+
+function incluiPlacar(){
+  fill(255);
+  text(meusPontos, 278, 26);
+  text(pontosOponente, 321, 26);
+}
