@@ -14,6 +14,14 @@ let yRaquete = 150;
 let raqueteComprimento = 10;
 let raqueteAltura = 90;
 
+//variaveis do oponente
+let xRaqueteOponente = 585;
+let yRaqueteOponente = 150;
+let velocidadeYOponente;
+
+let colidiu = false;
+
+
 function setup() {
   createCanvas(600, 400);
 }
@@ -21,19 +29,23 @@ function setup() {
 function draw() {
   background(30);
   mostraBolinha();
-  mostraRaquete();
+  mostraRaquete(xRaquete, yRaquete);
+  mostraRaquete(xRaqueteOponente, yRaqueteOponente);
   movimentaBolinha();
   verificaColisaoBorda();  
   movimentaRaquete();
-  verificaColisaoRaquete();
+  movimentaRaqueteOponente();
+  verificaColisaoRaquete(xRaquete, yRaquete);
+  verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente);
+  //colisaoMinhaRaqueteBiblioteca();
 }
 
 function mostraBolinha(){
   circle(xBolinha, yBolinha, diametro);
 }
 
-function mostraRaquete(){
-  rect(xRaquete, yRaquete, raqueteComprimento, raqueteAltura);
+function mostraRaquete(x, y){
+  rect(x, y, raqueteComprimento, raqueteAltura);
 }
 
 function movimentaBolinha(){
@@ -50,6 +62,11 @@ function movimentaRaquete(){
   }
 }
 
+function movimentaRaqueteOponente(){
+  velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
+  yRaqueteOponente += velocidadeYOponente;
+}
+
 function verificaColisaoBorda(){
   if (xBolinha + raio > width || 
     xBolinha - raio < 0){
@@ -62,10 +79,24 @@ function verificaColisaoBorda(){
   }
 }
 
-function verificaColisaoRaquete(){
-  if (xBolinha - raio < xRaquete + raqueteComprimento &&
-    yBolinha - raio < yRaquete + raqueteAltura &&
-    yBolinha + raio > yRaquete){
-    velocidadeXBolinha *= -1;
+// function verificaColisaoRaquete(){
+//   if (xBolinha - raio < xRaquete + raqueteComprimento &&
+//     yBolinha - raio < yRaquete + raqueteAltura &&
+//     yBolinha + raio > yRaquete){
+//     velocidadeXBolinha *= -1;
+//   }
+// }
+
+function verificaColisaoRaquete(x, y){
+  colidiu = collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
+  if (colidiu){
+    velocidadeXBolinha *= -1
   }
 }
+
+// function colisaoMinhaRaqueteBiblioteca(){
+//   colidiu = collideRectCircle(xRaquete, yRaquete, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
+//   if (colidiu){
+//     velocidadeXBolinha *= -1
+//   }
+// }
