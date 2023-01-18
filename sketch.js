@@ -25,8 +25,20 @@ let colidiu = false;
 let meusPontos = 0;
 let pontosOponente = 0;
 
+//sons
+let raquetada;
+let ponto;
+let trilha;
+
+function preload(){
+  raquetada = loadSound("Pong - Sons/raquetada.mp3")
+  ponto = loadSound("Pong - Sons/ponto.mp3")
+  trilha = loadSound("Pong - Sons/trilha.mp3");
+}
+
 function setup() {
   createCanvas(600, 400);
+  trilha.loop();
 }
 
 function draw() {
@@ -42,6 +54,7 @@ function draw() {
   verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente);
   //colisaoMinhaRaqueteBiblioteca();
   incluiPlacar();
+  marcaPonto();
 }
 
 function mostraBolinha(){
@@ -67,8 +80,14 @@ function movimentaRaquete(){
 }
 
 function movimentaRaqueteOponente(){
-  velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
-  yRaqueteOponente += velocidadeYOponente;
+  // velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
+  // yRaqueteOponente += velocidadeYOponente;
+  if (keyIsDown(87)) {
+    yRaqueteOponente -= 10;
+  }
+  if (keyIsDown(83)){
+    yRaqueteOponente += 10;
+  }
 }
 
 function verificaColisaoBorda(){
@@ -95,6 +114,7 @@ function verificaColisaoRaquete(x, y){
   colidiu = collideRectCircle(x, y, raqueteComprimento, raqueteAltura, xBolinha, yBolinha, raio);
   if (colidiu){
     velocidadeXBolinha *= -1
+    raquetada.play();
   }
 }
 
@@ -105,8 +125,27 @@ function verificaColisaoRaquete(x, y){
 //   }
 // }
 
-function incluiPlacar(){
+function incluiPlacar(){  
+  stroke(255);
+  textAlign(CENTER); 
+  textSize(16);
+  fill(color(255, 140, 0));
+  rect(150, 10, 40, 20);
   fill(255);
-  text(meusPontos, 278, 26);
-  text(pontosOponente, 321, 26);
+  text(meusPontos, 170, 26);
+  fill(color(255, 140, 0));
+  rect(450, 10, 40, 20);
+  fill(255);
+  text(pontosOponente, 470, 26);
+}
+
+function marcaPonto(){
+  if (xBolinha > 590){
+    meusPontos += 1;
+    ponto.play();
+  }
+  if (xBolinha < 10){
+    pontosOponente += 1;
+    ponto.play();
+  }
 }
