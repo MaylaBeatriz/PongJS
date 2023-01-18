@@ -18,6 +18,7 @@ let raqueteAltura = 90;
 let xRaqueteOponente = 585;
 let yRaqueteOponente = 150;
 let velocidadeYOponente;
+let chanceDeErrar = 0;
 
 let colidiu = false;
 
@@ -80,14 +81,15 @@ function movimentaRaquete(){
 }
 
 function movimentaRaqueteOponente(){
-  // velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
-  // yRaqueteOponente += velocidadeYOponente;
-  if (keyIsDown(87)) {
-    yRaqueteOponente -= 10;
-  }
-  if (keyIsDown(83)){
-    yRaqueteOponente += 10;
-  }
+  velocidadeYOponente = yBolinha - yRaqueteOponente - raqueteComprimento / 2 - 30;
+  yRaqueteOponente += velocidadeYOponente + chanceDeErrar;
+  // if (keyIsDown(87)) {
+  //   yRaqueteOponente -= 10;
+  // }
+  // if (keyIsDown(83)){
+  //   yRaqueteOponente += 10;
+  // }
+  calculaChanceDeErrar();
 }
 
 function verificaColisaoBorda(){
@@ -147,5 +149,19 @@ function marcaPonto(){
   if (xBolinha < 10){
     pontosOponente += 1;
     ponto.play();
+  }
+}
+
+function calculaChanceDeErrar() {
+  if (pontosOponente >= meusPontos) {
+    chanceDeErrar += 1
+    if (chanceDeErrar >= 39){
+    chanceDeErrar = 40
+    }
+  } else {
+    chanceDeErrar -= 1
+    if (chanceDeErrar <= 35){
+    chanceDeErrar = 35
+    }
   }
 }
